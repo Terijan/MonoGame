@@ -62,7 +62,7 @@ namespace Microsoft.Xna.Framework.Input
 		public override int GetHashCode ()
 		{
 			// use the hash code of the _keys array
-			if (_keys != null)
+            if (_keys != null && _keys.Length > 0)
 				return _keys.GetHashCode ();
 			else
 				return -1;
