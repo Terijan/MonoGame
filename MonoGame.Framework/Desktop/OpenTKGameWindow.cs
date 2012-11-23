@@ -48,6 +48,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OpenTK;
 using OpenTK.Graphics;
+using System.Security;
 
 
 #endregion Using Statements
@@ -248,6 +249,7 @@ namespace Microsoft.Xna.Framework
 
         #endregion
 
+        [SecuritySafeCritical]
         private void Initialize()
         {
             GraphicsContext.ShareContexts = true;

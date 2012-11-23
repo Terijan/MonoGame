@@ -21,7 +21,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -32,7 +32,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
@@ -42,7 +42,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugSymbols>true</DebugSymbols>
@@ -55,7 +55,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -81,9 +81,8 @@
     <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ThirdParty\Libs\OpenTK.dll</HintPath>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\opentk\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -100,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioCategory.cs" />
+    <Compile Include="Audio\DynamicSoundEffectInstance.cs" />
     <Compile Include="Content\ContentExtensions.cs" />
     <Compile Include="Content\ContentReaders\DualTextureEffectReader.cs" />
     <Compile Include="Content\ContentReaders\EffectReader.cs" />
@@ -329,6 +329,7 @@
     <Compile Include="Net\QualityOfService.cs" />
     <Compile Include="Net\SendDataOptions.cs" />
     <Compile Include="Storage\StorageDeviceHelper.cs" />
+    <Compile Include="TypeConverters\RectangleConverter.cs" />
     <Compile Include="Utilities\Hash.cs" />
     <Compile Include="Windows\Audio\AudioLoader.cs" />
     <Compile Include="Windows\Audio\Sound.cs" />
@@ -472,17 +473,17 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
-      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
-      <Name>Lidgren.Network.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Graphics\Effect\Resources\AlphaTestEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\BasicEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\SpriteEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\DualTextureEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\EnvironmentMapEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\SkinnedEffect.ogl.mgfxo" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
+      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
+      <Name>Lidgren.Network.Windows</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -172,27 +172,32 @@ namespace Microsoft.Xna.Framework.Audio
 
 		public void Update ()
 		{
-			HashSet<OALSoundBuffer> purgeMe = new HashSet<OALSoundBuffer> ();
+            if (playingSourcesCollection != null)
+            {
+                HashSet<OALSoundBuffer> purgeMe = new HashSet<OALSoundBuffer>();
 
-			ALSourceState state;
-			foreach (var soundBuffer in playingSourcesCollection) {
+                ALSourceState state;
+                foreach (var soundBuffer in playingSourcesCollection)
+                {
 
-				state = AL.GetSourceState (soundBuffer.SourceId);
+                    state = AL.GetSourceState(soundBuffer.SourceId);
 
-				if (state == ALSourceState.Stopped) {
+                    if (state == ALSourceState.Stopped)
+                    {
 
-					AL.Source (soundBuffer.SourceId, ALSourcei.Buffer, 0);
-					purgeMe.Add (soundBuffer);
-					//Console.WriteLine ("to be recycled: " + soundBuffer.SourceId);
-				}
+                        AL.Source(soundBuffer.SourceId, ALSourcei.Buffer, 0);
+                        purgeMe.Add(soundBuffer);
+                        //Console.WriteLine ("to be recycled: " + soundBuffer.SourceId);
+                    }
 
-			}
+                }
 
-			foreach (var soundBuffer in purgeMe) {
-
-				playingSourcesCollection.Remove (soundBuffer);
-				RecycleSource (soundBuffer);
-			}
+                foreach (var soundBuffer in purgeMe)
+                {
+                    playingSourcesCollection.Remove(soundBuffer);
+                    RecycleSource(soundBuffer);
+                }
+            }
 		}
 
 #if MACOSX || IPHONE
