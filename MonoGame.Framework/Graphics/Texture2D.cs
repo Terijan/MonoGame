@@ -710,19 +710,27 @@ namespace Microsoft.Xna.Framework.Graphics
 #else
             using (Bitmap image = (Bitmap)Bitmap.FromStream(stream))
             {
+                Bitmap bmp = image;
+                var data = new byte[bmp.Width * bmp.Height * 4];
+                if (bmp.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+                {
+                    Bitmap newBmp = new Bitmap(bmp.Width, bmp.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(newBmp);
+                    g.DrawImage(bmp, 0, 0, bmp.Width, bmp.Height);
+                    bmp = newBmp;
+                }
                 // Fix up the Image to match the expected format
-                image.RGBToBGR();
+                bmp.RGBToBGR();
 
-                var data = new byte[image.Width * image.Height * 4];
-
-                BitmapData bitmapData = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
+                BitmapData bitmapData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height),
                     ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                if (bitmapData.Stride != image.Width * 4) throw new NotImplementedException();
+                if (bitmapData.Stride != bmp.Width * 4) throw new NotImplementedException();
                 Marshal.Copy(bitmapData.Scan0, data, 0, data.Length);
-                image.UnlockBits(bitmapData);
+                bmp.UnlockBits(bitmapData);
+                
 
                 Texture2D texture = null;
-                texture = new Texture2D(graphicsDevice, image.Width, image.Height);
+                texture = new Texture2D(graphicsDevice, bmp.Width, bmp.Height);
                 texture.SetData(data);
 
                 return texture;
