@@ -335,6 +335,35 @@ namespace Microsoft.Xna.Framework.Graphics
 			PresentationParameters.DepthStencilFormat = DepthFormat.Depth24;
         }
 
+        public GraphicsDevice(GraphicsAdapter adapter, GraphicsProfile profile, PresentationParameters parameters)
+        {
+            // Initialize the main viewport
+            _viewport = new Viewport(0, 0,
+                                     DisplayMode.Width, DisplayMode.Height);
+            _viewport.MaxDepth = 1.0f;
+
+            MaxTextureSlots = 16;
+#if GLES
+            GL.GetInteger(All.MaxTextureImageUnits, ref MaxTextureSlots);
+            GraphicsExtensions.CheckGLError();
+
+            GL.GetInteger(All.MaxVertexAttribs, ref MaxVertexAttributes);
+            GraphicsExtensions.CheckGLError();            
+#elif OPENGL
+            GL.GetInteger(GetPName.MaxTextureImageUnits, out MaxTextureSlots);
+            GraphicsExtensions.CheckGLError();
+
+            GL.GetInteger(GetPName.MaxVertexAttribs, out MaxVertexAttributes);
+            GraphicsExtensions.CheckGLError();
+#endif
+            Textures = new TextureCollection(MaxTextureSlots);
+            SamplerStates = new SamplerStateCollection(MaxTextureSlots);
+
+            PresentationParameters = parameters;
+            PresentationParameters.DepthStencilFormat = DepthFormat.Depth24;
+        }
+
+
         ~GraphicsDevice()
         {
             Dispose(false);
@@ -1148,7 +1177,6 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Reset(PresentationParameters presentationParameters)
         {
-            throw new NotImplementedException();
         }
 
         public void Reset(PresentationParameters presentationParameters, GraphicsAdapter graphicsAdapter)

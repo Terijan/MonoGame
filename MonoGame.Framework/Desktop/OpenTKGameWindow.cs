@@ -254,7 +254,7 @@ namespace Microsoft.Xna.Framework
         {
             GraphicsContext.ShareContexts = true;
 
-            window = new OpenTK.GameWindow();
+            window = new OpenTK.GameWindow(1440,810);
             window.RenderFrame += OnRenderFrame;
             window.UpdateFrame += OnUpdateFrame;
             window.Closing += new EventHandler<CancelEventArgs>(OpenTkGameWindow_Closing);
