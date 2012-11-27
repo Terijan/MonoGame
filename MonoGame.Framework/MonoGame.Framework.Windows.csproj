@@ -81,6 +81,10 @@
     <DefineConstants>TRACE;WINDOWS;OPENGL</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lidgren.Network.Windows, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DLL\MonoGame\Lidgren.Network.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\..\opentk\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
     </Reference>
@@ -128,6 +132,7 @@
     <Compile Include="Desktop\Input\GamePad.cs" />
     <Compile Include="Desktop\Input\Input.cs" />
     <Compile Include="Desktop\Input\Joystick.cs" />
+    <Compile Include="FieldPropertyDescriptor.cs" />
     <Compile Include="Graphics\Shader\ConstantBufferCollection.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Desktop\Input\PadConfig.cs" />
@@ -328,9 +333,11 @@
     <Compile Include="Net\PacketWriter.cs" />
     <Compile Include="Net\QualityOfService.cs" />
     <Compile Include="Net\SendDataOptions.cs" />
+    <Compile Include="RectangleConverter.cs" />
     <Compile Include="Storage\StorageDeviceHelper.cs" />
-    <Compile Include="TypeConverters\RectangleConverter.cs" />
     <Compile Include="Utilities\Hash.cs" />
+    <Compile Include="Vector2Converter.cs" />
+    <Compile Include="Vector3Converter.cs" />
     <Compile Include="Windows\Audio\AudioLoader.cs" />
     <Compile Include="Windows\Audio\Sound.cs" />
     <Compile Include="Windows\Content\ContentReaders\SoundEffectReader.cs" />
@@ -479,11 +486,5 @@
     <EmbeddedResource Include="Graphics\Effect\Resources\DualTextureEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\EnvironmentMapEffect.ogl.mgfxo" />
     <EmbeddedResource Include="Graphics\Effect\Resources\SkinnedEffect.ogl.mgfxo" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\Lidgren.Network\Lidgren.Network.Windows.csproj">
-      <Project>{AE483C29-042E-4226-BA52-D247CE7676DA}</Project>
-      <Name>Lidgren.Network.Windows</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

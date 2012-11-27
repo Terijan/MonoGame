@@ -28,6 +28,7 @@ SOFTWARE.
 using System;
 using System.Text;
 using System.Globalization;
+using System.ComponentModel;
 #if WINRT
 using System.Runtime.Serialization;
 #endif
@@ -39,6 +40,7 @@ namespace Microsoft.Xna.Framework
     #else
     [Serializable]
     #endif
+    [TypeConverter(typeof(Vector2Converter))]
     public struct Vector2 : IEquatable<Vector2>
     {
         #region Private Fields

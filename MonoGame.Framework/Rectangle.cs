@@ -32,6 +32,7 @@ using System.ComponentModel;
 namespace Microsoft.Xna.Framework
 {
 
+    [TypeConverter(typeof(RectangleConverter))]
     public struct Rectangle : IEquatable<Rectangle>
     {
         #region Private Fields
