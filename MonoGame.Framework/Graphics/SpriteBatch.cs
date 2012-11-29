@@ -276,9 +276,9 @@ namespace Microsoft.Xna.Framework.Graphics
 					-origin.Y,
 					destinationRectangle.Z,
 					destinationRectangle.W,
-					(float)Math.Sin (rotation), 
-					(float)Math.Cos (rotation), 
-					color, 
+                    (rotation == 0 ? 0 : (float)Math.Sin(rotation)),
+                    (rotation == 0 ? 1 : (float)Math.Cos(rotation)),
+                    color, 
 					_texCoordTL, 
 					_texCoordBR);			
 			

@@ -49,9 +49,8 @@ namespace Microsoft.Xna.Framework.Graphics
 		private const int InitialVertexArraySize = 256;
 
 	    readonly List<SpriteBatchItem> _batchItemList;
-
-	    readonly Queue<SpriteBatchItem> _freeBatchItemQueue;
-
+		private int m_iCurrentBatchPos = 0;
+        
 	    readonly GraphicsDevice _device;
 
         short[] _index;
@@ -63,8 +62,7 @@ namespace Microsoft.Xna.Framework.Graphics
             _device = device;
 
 			_batchItemList = new List<SpriteBatchItem>(InitialBatchSize);
-			_freeBatchItemQueue = new Queue<SpriteBatchItem>(InitialBatchSize);
-
+			
             _index = new short[6 * InitialVertexArraySize];
             for (var i = 0; i < InitialVertexArraySize; i++)
             {
@@ -81,13 +79,13 @@ namespace Microsoft.Xna.Framework.Graphics
 		
 		public SpriteBatchItem CreateBatchItem()
 		{
-			SpriteBatchItem item;
-			if ( _freeBatchItemQueue.Count > 0 )
-				item = _freeBatchItemQueue.Dequeue();
-			else
-				item = new SpriteBatchItem();
-			_batchItemList.Add(item);
-			return item;
+			if ( m_iCurrentBatchPos >= _batchItemList.Count )
+            {
+                _batchItemList.Add (new SpriteBatchItem());
+            }
+
+            m_iCurrentBatchPos++;
+			return _batchItemList[m_iCurrentBatchPos - 1];
 		}
 
 	    static int CompareTexture ( SpriteBatchItem a, SpriteBatchItem b )
@@ -112,7 +110,7 @@ namespace Microsoft.Xna.Framework.Graphics
 				return;
 			
 			// sort the batch items
-			switch ( sortMode )
+			/*switch ( sortMode )
 			{
 			case SpriteSortMode.Texture :
 				_batchItemList.Sort( CompareTexture );
@@ -123,7 +121,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			case SpriteSortMode.BackToFront :
 				_batchItemList.Sort ( CompareReverseDepth );
 				break;
-			}
+			}*/
 
 			// setup the vertexArray array
 			var startIndex = 0;
@@ -134,8 +132,9 @@ namespace Microsoft.Xna.Framework.Graphics
 			if ( _batchItemList.Count*4 > _vertexArray.Length )
 				ExpandVertexArray( _batchItemList.Count );
 
-			foreach ( var item in _batchItemList )
+			for ( int i = 0; i < m_iCurrentBatchPos; i++)
 			{
+				SpriteBatchItem item = _batchItemList[i];
 				// if the texture changed, we need to flush and bind the new texture
 				var shouldFlush = item.Texture != tex;
 				if ( shouldFlush )
@@ -155,13 +154,12 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 // Release the texture and return the item to the queue.
                 item.Texture = null;
-				_freeBatchItemQueue.Enqueue( item );
 			}
 
 			// flush the remaining vertexArray data
 			FlushVertexArray(startIndex, index);
 			
-			_batchItemList.Clear();
+			m_iCurrentBatchPos = 0;
 		}
 				
 		void ExpandVertexArray( int batchSize )

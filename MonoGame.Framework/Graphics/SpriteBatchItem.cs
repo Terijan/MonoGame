@@ -21,6 +21,11 @@ namespace Microsoft.Xna.Framework.Graphics
 		
 		public void Set ( float x, float y, float w, float h, Color color, Vector2 texCoordTL, Vector2 texCoordBR )
 		{
+            vertexTL.Position.Z = Depth;
+            vertexBL.Position.Z = Depth;
+            vertexBR.Position.Z = Depth;
+            vertexTR.Position.Z = Depth;
+
 			vertexTL.Position.X = x;
             vertexTL.Position.Y = y;
             vertexTL.Position.Z = Depth;
