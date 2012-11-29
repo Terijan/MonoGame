@@ -573,18 +573,39 @@ namespace Microsoft.Xna.Framework.Graphics
                 }
 
 #else
+            Threading.BlockOnUIThread(() =>
+            {
+                GL.BindTexture(TextureTarget.Texture2D, this.glTexture);
 
-			GL.BindTexture(TextureTarget.Texture2D, this.glTexture);
+                if (!rect.HasValue)
+                {
+                    rect = new Rectangle(0, 0, Width, Height);
+                }
 
-			if (rect.HasValue) {
-				throw new NotImplementedException();
-			}
+                if (glFormat == (GLPixelFormat)All.CompressedTextureFormats)
+                {
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    uint[] pixels = new uint[Width * Height];
+                    GL.GetTexImage(TextureTarget.Texture2D, level, this.glFormat, this.glType, pixels);
 
-			if (glFormat == (GLPixelFormat)All.CompressedTextureFormats) {
-				throw new NotImplementedException();
-			} else {
-				GL.GetTexImage(TextureTarget.Texture2D, level, this.glFormat, this.glType, data);
-			}
+                    int dataPos = 0;
+                    for (int y = 0; y < rect.Value.Height; y++)
+                    {
+                        for (int x = 0; x < rect.Value.Width; x++)
+                        {
+                            int pos = ((y + rect.Value.Y) * Width) + (x + rect.Value.X);
+                            Color color = new Color();
+                            color.PackedValue = pixels[pos];
+                            data[dataPos] = (T)(object)color;
+                            dataPos++;
+                        }
+                    }
+                }
+            }
+            );
 
 #endif
         }
