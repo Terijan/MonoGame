@@ -1171,17 +1171,19 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Reset()
         {
-            // Manually resetting the device is not currently supported.
-            throw new NotImplementedException();
+            Reset(new PresentationParameters());
         }
 
         public void Reset(PresentationParameters presentationParameters)
         {
+            Reset(presentationParameters, GraphicsAdapter.DefaultAdapter);
         }
 
         public void Reset(PresentationParameters presentationParameters, GraphicsAdapter graphicsAdapter)
         {
-            throw new NotImplementedException();
+            OnDeviceResetting();
+
+            OnDeviceReset();
         }
 
         /// <summary>

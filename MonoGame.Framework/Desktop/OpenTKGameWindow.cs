@@ -204,10 +204,6 @@ namespace Microsoft.Xna.Framework
             // we should wait until window's not fullscreen to resize
             if (updateClientBounds)
             {
-                window.ClientRectangle = new System.Drawing.Rectangle(clientBounds.X,
-                                     clientBounds.Y, clientBounds.Width, clientBounds.Height);
-
-                updateClientBounds = false;
                 
                 // if the window-state is set from the outside (maximized button pressed) we have to update it here.
                 // if it was set from the inside (.IsFullScreen changed), we have to change the window.
@@ -218,7 +214,12 @@ namespace Microsoft.Xna.Framework
                     windowState = window.WindowState; // maximize->normal and normal->maximize are usually set from the outside
                 else
                     window.WindowState = windowState; // usually fullscreen-stuff is set from the code
-                
+
+                window.ClientRectangle = new System.Drawing.Rectangle(clientBounds.X,
+                                     clientBounds.Y, clientBounds.Width, clientBounds.Height);
+
+                updateClientBounds = false;
+
                 // fixes issue on linux (and windows?) that AllowUserResizing is not set any more when exiting fullscreen mode
                 WindowBorder desired = AllowUserResizing ? WindowBorder.Resizable : WindowBorder.Fixed;
                 if (desired != window.WindowBorder && window.WindowState != WindowState.Fullscreen)

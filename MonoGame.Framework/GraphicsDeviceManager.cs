@@ -284,6 +284,7 @@ namespace Microsoft.Xna.Framework
             //
             TouchPanel.DisplayWidth = _graphicsDevice.PresentationParameters.BackBufferWidth;
             TouchPanel.DisplayHeight = _graphicsDevice.PresentationParameters.BackBufferHeight;
+            _graphicsDevice.Reset();
         }
 
         private void Initialize()

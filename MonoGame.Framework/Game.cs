@@ -700,6 +700,7 @@ namespace Microsoft.Xna.Framework
 #if LINUX || WINDOWS
             ((OpenTKGamePlatform)Platform).ResetWindowBounds(changed);
 #endif
+            applyChanges(graphicsDeviceManager);
         }
 
         #endregion Internal Methods

@@ -161,7 +161,7 @@ namespace Microsoft.Xna.Framework.Graphics
         internal protected override void GraphicsDeviceResetting()
         {
 #if OPENGL
-            this.glTexture = -1;
+            //this.glTexture = -1;
 #endif
         }
 

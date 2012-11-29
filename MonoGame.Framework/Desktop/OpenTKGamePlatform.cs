@@ -205,7 +205,15 @@ namespace Microsoft.Xna.Framework
             {
                 
                 // switch back to the normal screen resolution
-                OpenTK.DisplayDevice.Default.RestoreResolution();
+                if (OpenTK.DisplayDevice.Default.Width != graphicsDeviceManager.PreferredBackBufferWidth ||
+                     OpenTK.DisplayDevice.Default.Height != graphicsDeviceManager.PreferredBackBufferHeight)
+                {
+                    OpenTK.DisplayDevice.Default.ChangeResolution(graphicsDeviceManager.PreferredBackBufferWidth,
+                            graphicsDeviceManager.PreferredBackBufferHeight,
+                            OpenTK.DisplayDevice.Default.BitsPerPixel,
+                            OpenTK.DisplayDevice.Default.RefreshRate);
+                }
+
                 // now update the bounds 
                 bounds.Width = graphicsDeviceManager.PreferredBackBufferWidth;
                 bounds.Height = graphicsDeviceManager.PreferredBackBufferHeight;
