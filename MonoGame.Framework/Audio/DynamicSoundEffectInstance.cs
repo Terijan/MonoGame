@@ -218,10 +218,9 @@ namespace Microsoft.Xna.Framework.Audio
         {
             if (hasSourceId)
             {
-                AL.SourceStop(sourceId);
-                int pendingBuffers = PendingBufferCount;
-                if(pendingBuffers > 0)
+                if (PendingBufferCount > 0)
                     AL.SourceUnqueueBuffers(sourceId, PendingBufferCount);
+                AL.SourceStop(sourceId);
                 if (bufferFillerThread != null)
                     bufferFillerThread.Abort();
                 bufferFillerThread = null;

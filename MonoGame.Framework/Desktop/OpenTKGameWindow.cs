@@ -97,6 +97,8 @@ namespace Microsoft.Xna.Framework
 
         public override Rectangle ClientBounds { get { return clientBounds; } }
 
+        public bool FullScreen { get { return windowState == WindowState.Fullscreen; } }
+
         // TODO: this is buggy on linux - report to opentk team
         public override bool AllowUserResizing
         {
@@ -320,7 +322,7 @@ namespace Microsoft.Xna.Framework
 
         internal void ChangeClientBounds(Rectangle clientBounds)
         {
-            if (!updateClientBounds)
+            //if (!updateClientBounds)
             {
                 updateClientBounds = true;
                 this.clientBounds = clientBounds;

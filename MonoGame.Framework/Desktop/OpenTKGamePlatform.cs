@@ -82,9 +82,6 @@ namespace Microsoft.Xna.Framework
     {
         private OpenTKGameWindow _view;
 		private OpenALSoundController soundControllerInstance = null;
-        // stored the current screen state, so we can check if it has changed.
-        private bool isCurrentlyFullScreen = false;
-        
         
         public override bool VSyncEnabled
         {
@@ -192,33 +189,32 @@ namespace Microsoft.Xna.Framework
             {
                 bounds = new Rectangle(0, 0,graphicsDeviceManager.PreferredBackBufferWidth,graphicsDeviceManager.PreferredBackBufferHeight);
 
-                if (OpenTK.DisplayDevice.Default.Width != graphicsDeviceManager.PreferredBackBufferWidth ||
-                    OpenTK.DisplayDevice.Default.Height != graphicsDeviceManager.PreferredBackBufferHeight)
-                {
-                    OpenTK.DisplayDevice.Default.ChangeResolution(graphicsDeviceManager.PreferredBackBufferWidth,
-                            graphicsDeviceManager.PreferredBackBufferHeight,
-                            OpenTK.DisplayDevice.Default.BitsPerPixel,
-                            OpenTK.DisplayDevice.Default.RefreshRate);
-                }
+//                 if (OpenTK.DisplayDevice.Default.Width != graphicsDeviceManager.PreferredBackBufferWidth ||
+//                     OpenTK.DisplayDevice.Default.Height != graphicsDeviceManager.PreferredBackBufferHeight)
+//                 {
+//                     OpenTK.DisplayDevice.Default.ChangeResolution(graphicsDeviceManager.PreferredBackBufferWidth,
+//                             graphicsDeviceManager.PreferredBackBufferHeight,
+//                             OpenTK.DisplayDevice.Default.BitsPerPixel,
+//                             OpenTK.DisplayDevice.Default.RefreshRate);
+//                 }
             }
             else
             {
                 
                 // switch back to the normal screen resolution
-                if (OpenTK.DisplayDevice.Default.Width != graphicsDeviceManager.PreferredBackBufferWidth ||
-                     OpenTK.DisplayDevice.Default.Height != graphicsDeviceManager.PreferredBackBufferHeight)
-                {
-                    OpenTK.DisplayDevice.Default.ChangeResolution(graphicsDeviceManager.PreferredBackBufferWidth,
-                            graphicsDeviceManager.PreferredBackBufferHeight,
-                            OpenTK.DisplayDevice.Default.BitsPerPixel,
-                            OpenTK.DisplayDevice.Default.RefreshRate);
-                }
+//                 if (OpenTK.DisplayDevice.Default.Width != graphicsDeviceManager.PreferredBackBufferWidth ||
+//                      OpenTK.DisplayDevice.Default.Height != graphicsDeviceManager.PreferredBackBufferHeight)
+//                 {
+//                     OpenTK.DisplayDevice.Default.ChangeResolution(graphicsDeviceManager.PreferredBackBufferWidth,
+//                             graphicsDeviceManager.PreferredBackBufferHeight,
+//                             OpenTK.DisplayDevice.Default.BitsPerPixel,
+//                             OpenTK.DisplayDevice.Default.RefreshRate);
+//                 }
 
                 // now update the bounds 
                 bounds.Width = graphicsDeviceManager.PreferredBackBufferWidth;
                 bounds.Height = graphicsDeviceManager.PreferredBackBufferHeight;
             }
-            
 
             // Now we set our Presentation Parameters
             var device = (GraphicsDevice)graphicsDeviceManager.GraphicsDevice;
@@ -232,18 +228,16 @@ namespace Microsoft.Xna.Framework
                 parms.BackBufferWidth = (int)bounds.Width;
             }
 
-            if (graphicsDeviceManager.IsFullScreen != isCurrentlyFullScreen)
+            bool previouslyFullScreen = _view.FullScreen;
+            if (graphicsDeviceManager.IsFullScreen != previouslyFullScreen)
             {                
                 _view.ToggleFullScreen();
             }
 
             // we only change window bounds if we are not fullscreen
             // or if fullscreen mode was just entered
-            if (!graphicsDeviceManager.IsFullScreen || (graphicsDeviceManager.IsFullScreen != isCurrentlyFullScreen))
+            //if (!graphicsDeviceManager.IsFullScreen || (graphicsDeviceManager.IsFullScreen != previouslyFullScreen))
                 _view.ChangeClientBounds(bounds);
-
-            // store the current fullscreen state
-            isCurrentlyFullScreen = graphicsDeviceManager.IsFullScreen;
 
             IsActive = wasActive;
         }

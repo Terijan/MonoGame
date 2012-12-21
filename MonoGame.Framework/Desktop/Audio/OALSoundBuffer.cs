@@ -55,7 +55,8 @@ namespace Microsoft.Xna.Framework.Audio
 			AL.GetBuffer (openALDataBuffer, ALGetBufferi.Channels, out channels);
 
 			ALError alError = AL.GetError ();
-			if (alError != ALError.NoError) {
+            if( alError != ALError.NoError || channels == 0 || sampleRate == 0)
+            {
 				Console.WriteLine ("Failed to get buffer attributes: ", AL.GetErrorString (alError));
 				Duration = -1;
 			} else {

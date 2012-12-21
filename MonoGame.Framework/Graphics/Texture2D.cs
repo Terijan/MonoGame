@@ -597,10 +597,23 @@ namespace Microsoft.Xna.Framework.Graphics
                         for (int x = 0; x < rect.Value.Width; x++)
                         {
                             int pos = ((y + rect.Value.Y) * Width) + (x + rect.Value.X);
-                            Color color = new Color();
-                            color.PackedValue = pixels[pos];
-                            data[dataPos] = (T)(object)color;
-                            dataPos++;
+
+                            if (typeof(T) == typeof(Color))
+                            {
+                                Color color = new Color();
+                                color.PackedValue = pixels[pos];
+                                data[dataPos] = (T)(object)color;
+                                dataPos++;
+                            }
+                            else
+                            {
+                                byte l_byte = (byte)((pixels[pos] & (0xFF << 24)) >> 24);
+                                data[dataPos] = (T)(object)(byte)(pixels[pos] & 0xFF);
+                                data[dataPos + 1] = (T)(object)(byte)((pixels[pos] & (0xFF << 8)) >> 8);
+                                data[dataPos + 2] = (T)(object)(byte)((pixels[pos] & (0xFF << 16)) >> 16);
+                                data[dataPos + 3] = (T)(object)(byte)((pixels[pos] & (0xFF << 24)) >> 24);
+                                dataPos += 4;
+                            }
                         }
                     }
                 }

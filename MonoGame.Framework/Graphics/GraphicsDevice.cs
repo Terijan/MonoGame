@@ -1166,7 +1166,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
         public void Present(Rectangle? sourceRectangle, Rectangle? destinationRectangle, IntPtr overrideWindowHandle)
         {
-            throw new NotImplementedException();
+            Present();
         }
 
         public void Reset()

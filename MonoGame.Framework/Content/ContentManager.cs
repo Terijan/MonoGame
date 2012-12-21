@@ -300,7 +300,7 @@ namespace Microsoft.Xna.Framework.Content
                     }
                 }
             }
-            catch (ContentLoadException)
+            catch (ContentLoadException /*ex*/)
             {
 				//MonoGame try to load as a non-content file
 
@@ -316,7 +316,7 @@ namespace Microsoft.Xna.Framework.Content
                 result = ReadRawAsset<T>(assetName, originalAssetName);
 
                 // Because Raw Assets skip the ContentReader step, they need to have their
-                // disopsables recorded here. Doing it outside of this catch will 
+                // disposables recorded here. Doing it outside of this catch will 
                 // result in disposables being logged twice.
                 if (result is IDisposable)
                 {
