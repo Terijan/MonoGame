@@ -26,6 +26,7 @@ SOFTWARE.
 #endregion License
 
 using System;
+using System.ComponentModel;
 
 #if WINRT
 using System.Runtime.Serialization;
@@ -38,6 +39,7 @@ namespace Microsoft.Xna.Framework
     #else
     [Serializable]
     #endif
+    [TypeConverter(typeof(ColorConverter))]
     public struct Color : IEquatable<Color>
     {
 		// ARGB

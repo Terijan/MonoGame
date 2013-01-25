@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
+using System.Reflection;
 
 namespace Microsoft.Xna.Framework
 {
@@ -28,7 +30,7 @@ namespace Microsoft.Xna.Framework
 
         public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
-            return base.CanConvertTo(context, destinationType);
+            return (destinationType == typeof(InstanceDescriptor)) || base.CanConvertTo(context, destinationType);
         }
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
@@ -45,10 +47,20 @@ namespace Microsoft.Xna.Framework
 
         public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
         {
-            if (destinationType == typeof(string) && value is Vector3)
+            if (destinationType == typeof(string) && value is Rectangle)
             {
                 Rectangle l_value = (Rectangle)value;
                 return string.Format("{0}{4} {1}{4} {2}{4} {3}", l_value.X, l_value.Y, l_value.Width, l_value.Height, culture.TextInfo.ListSeparator);
+            }
+
+            if ((destinationType == typeof(InstanceDescriptor)) && (value is Rectangle))
+            {
+                Rectangle l_value = (Rectangle)value;
+                ConstructorInfo l_construct = typeof(Rectangle).GetConstructor(new Type[] { typeof(int), typeof(int), typeof(int), typeof(int) });
+                if (l_construct != null)
+                {
+                    return new InstanceDescriptor(l_construct, new object[] { l_value.X, l_value.Y, l_value.Width, l_value.Height });
+                }
             }
             
             return base.ConvertTo(context, culture, value, destinationType);

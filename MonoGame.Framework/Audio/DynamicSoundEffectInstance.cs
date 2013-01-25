@@ -261,8 +261,6 @@ namespace Microsoft.Xna.Framework.Audio
                 else
                     OnBufferNeeded(EventArgs.Empty);
             }
-            else
-                throw new  Exception("Buffer already full.");
         }
 
         private void BufferFiller()
@@ -274,6 +272,8 @@ namespace Microsoft.Xna.Framework.Audio
                 var state = AL.GetSourceState(sourceId);
                 if (state == ALSourceState.Stopped || state == ALSourceState.Initial)
                     AL.SourcePlay(sourceId);
+
+                Thread.Sleep((int)(100));
 
                 if (bufferIdsToFill != null)
                     continue;
