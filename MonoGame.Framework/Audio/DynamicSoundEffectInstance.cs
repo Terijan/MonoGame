@@ -5,7 +5,7 @@ using System.Text;
 #if MONOMAC
 using MonoMac.OpenAL;
 #else
-using OpenTK.Audio.OpenAL;
+//using OpenTK.Audio.OpenAL;
 using System.Threading;
 #endif
 
@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Audio
         private SoundState soundState = SoundState.Stopped;
         private AudioChannels channels;
         private int sampleRate;
-        private ALFormat format;
+        //private ALFormat format;
         private bool looped = false;
         private float volume = 1.0f;
         private float pan = 0;
@@ -46,17 +46,17 @@ namespace Microsoft.Xna.Framework.Audio
         {
             this.sampleRate = sampleRate;
             this.channels = channels;
-            switch (channels)
-            {
-                case AudioChannels.Mono:
-                    this.format = ALFormat.Mono16;
-                    break;
-                case AudioChannels.Stereo:
-                    this.format = ALFormat.Stereo16;
-                    break;
-                default:
-                    break;
-            }                       
+//             switch (channels)
+//             {
+//                 case AudioChannels.Mono:
+//                     this.format = ALFormat.Mono16;
+//                     break;
+//                 case AudioChannels.Stereo:
+//                     this.format = ALFormat.Stereo16;
+//                     break;
+//                 default:
+//                     break;
+//             }                       
         }
 
         public bool IsDisposed
@@ -81,7 +81,7 @@ namespace Microsoft.Xna.Framework.Audio
                 {
                     // Listener
                     // Pan
-                    AL.Source(sourceId, ALSource3f.Position, pan, 0.0f, 0.1f);
+//                    AL.Source(sourceId, ALSource3f.Position, pan, 0.0f, 0.1f);
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace Microsoft.Xna.Framework.Audio
                 if (hasSourceId)
                 {
                     // Pitch
-                    AL.Source(sourceId, ALSourcef.Pitch, XnaPitchToAlPitch(pitch));
+//                    AL.Source(sourceId, ALSourcef.Pitch, XnaPitchToAlPitch(pitch));
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace Microsoft.Xna.Framework.Audio
                 if (hasSourceId)
                 {
                     // Volume
-                    AL.Source(sourceId, ALSourcef.Gain, volume * SoundEffect.MasterVolume);
+//                    AL.Source(sourceId, ALSourcef.Gain, volume * SoundEffect.MasterVolume);
                 }
 
             }
@@ -139,24 +139,24 @@ namespace Microsoft.Xna.Framework.Audio
 
         public void Play()
         {
-            if (!hasSourceId)
-            {
-                bufferIds = AL.GenBuffers(BUFFERCOUNT);
-                sourceId = AL.GenSource();
-                hasSourceId = true;
-            }
-            soundState = SoundState.Playing;
-
-            if (bufferFillerThread == null)
-            {
-                bufferIdsToFill = bufferIds;
-                currentBufferToFill = 0;
-                OnBufferNeeded(EventArgs.Empty);
-                bufferFillerThread = new Thread(new ThreadStart(BufferFiller));
-                bufferFillerThread.Start();
-            }
-
-            AL.SourcePlay(sourceId);
+//             if (!hasSourceId)
+//             {
+//                 bufferIds = AL.GenBuffers(BUFFERCOUNT);
+//                 sourceId = AL.GenSource();
+//                 hasSourceId = true;
+//             }
+//             soundState = SoundState.Playing;
+// 
+//             if (bufferFillerThread == null)
+//             {
+//                 bufferIdsToFill = bufferIds;
+//                 currentBufferToFill = 0;
+//                 OnBufferNeeded(EventArgs.Empty);
+//                 bufferFillerThread = new Thread(new ThreadStart(BufferFiller));
+//                 bufferFillerThread.Start();
+//             }
+// 
+//             AL.SourcePlay(sourceId);
         }
 
         public void Apply3D(AudioListener listener, AudioEmitter emitter)
@@ -168,7 +168,7 @@ namespace Microsoft.Xna.Framework.Audio
         {
             if (hasSourceId)
             {
-                AL.SourcePause(sourceId);
+//                AL.SourcePause(sourceId);
                 soundState = SoundState.Paused;
             }
         }
@@ -177,55 +177,55 @@ namespace Microsoft.Xna.Framework.Audio
         public void Apply3D(AudioListener[] listeners, AudioEmitter emitter)
         {
             // get AL's listener position
-            float x, y, z;
-            AL.GetListener(ALListener3f.Position, out x, out y, out z);
-
-            for (int i = 0; i < listeners.Length; i++)
-            {
-                AudioListener listener = listeners[i];
-
-                // get the emitter offset from origin
-                Vector3 posOffset = emitter.Position - listener.Position;
-                // set up orientation matrix
-                Matrix orientation = Matrix.CreateWorld(Vector3.Zero, listener.Forward, listener.Up);
-                // set up our final position and velocity according to orientation of listener
-                Vector3 finalPos = new Vector3(x + posOffset.X, y + posOffset.Y, z + posOffset.Z);
-                finalPos = Vector3.Transform(finalPos, orientation);
-                Vector3 finalVel = emitter.Velocity;
-                finalVel = Vector3.Transform(finalVel, orientation);
-
-                // set the position based on relative positon
-                AL.Source(sourceId, ALSource3f.Position, finalPos.X, finalPos.Y, finalPos.Z);
-                AL.Source(sourceId, ALSource3f.Velocity, finalVel.X, finalVel.Y, finalVel.Z);
-            }
+//             float x, y, z;
+//             AL.GetListener(ALListener3f.Position, out x, out y, out z);
+// 
+//             for (int i = 0; i < listeners.Length; i++)
+//             {
+//                 AudioListener listener = listeners[i];
+// 
+//                 // get the emitter offset from origin
+//                 Vector3 posOffset = emitter.Position - listener.Position;
+//                 // set up orientation matrix
+//                 Matrix orientation = Matrix.CreateWorld(Vector3.Zero, listener.Forward, listener.Up);
+//                 // set up our final position and velocity according to orientation of listener
+//                 Vector3 finalPos = new Vector3(x + posOffset.X, y + posOffset.Y, z + posOffset.Z);
+//                 finalPos = Vector3.Transform(finalPos, orientation);
+//                 Vector3 finalVel = emitter.Velocity;
+//                 finalVel = Vector3.Transform(finalVel, orientation);
+// 
+//                 // set the position based on relative positon
+//                 AL.Source(sourceId, ALSource3f.Position, finalPos.X, finalPos.Y, finalPos.Z);
+//                 AL.Source(sourceId, ALSource3f.Velocity, finalVel.X, finalVel.Y, finalVel.Z);
+//             }
         }
 
 
         public void Dispose()
         {
-            if (!isDisposed)
-            {
-                Stop(true);
-                AL.DeleteBuffers(bufferIds);
-                AL.DeleteSource(sourceId);
-                bufferIdsToFill = null;
-                hasSourceId = false;
-                isDisposed = true;
-            }
+//             if (!isDisposed)
+//             {
+//                 Stop(true);
+//                 AL.DeleteBuffers(bufferIds);
+//                 AL.DeleteSource(sourceId);
+//                 bufferIdsToFill = null;
+//                 hasSourceId = false;
+//                 isDisposed = true;
+//             }
         }
 
         public void Stop()
         {
-            if (hasSourceId)
-            {
-                if (PendingBufferCount > 0)
-                    AL.SourceUnqueueBuffers(sourceId, PendingBufferCount);
-                AL.SourceStop(sourceId);
-                if (bufferFillerThread != null)
-                    bufferFillerThread.Abort();
-                bufferFillerThread = null;
-            }
-            soundState = SoundState.Stopped;
+//             if (hasSourceId)
+//             {
+//                 if (PendingBufferCount > 0)
+//                     AL.SourceUnqueueBuffers(sourceId, PendingBufferCount);
+//                 AL.SourceStop(sourceId);
+//                 if (bufferFillerThread != null)
+//                     bufferFillerThread.Abort();
+//                 bufferFillerThread = null;
+//             }
+//             soundState = SoundState.Stopped;
         }
 
         public void Stop(bool immediate)
@@ -251,43 +251,43 @@ namespace Microsoft.Xna.Framework.Audio
 
         public void SubmitBuffer(byte[] buffer, int offset, int count)
         {
-            if(bufferIdsToFill != null)
-            {
-                AL.BufferData(bufferIdsToFill[currentBufferToFill], format, buffer, count, sampleRate);
-                AL.SourceQueueBuffer(sourceId, bufferIdsToFill[currentBufferToFill]);
-                currentBufferToFill++;
-                if (currentBufferToFill >= bufferIdsToFill.Length)
-                    bufferIdsToFill = null;
-                else
-                    OnBufferNeeded(EventArgs.Empty);
-            }
+//             if(bufferIdsToFill != null)
+//             {
+//                 AL.BufferData(bufferIdsToFill[currentBufferToFill], format, buffer, count, sampleRate);
+//                 AL.SourceQueueBuffer(sourceId, bufferIdsToFill[currentBufferToFill]);
+//                 currentBufferToFill++;
+//                 if (currentBufferToFill >= bufferIdsToFill.Length)
+//                     bufferIdsToFill = null;
+//                 else
+//                     OnBufferNeeded(EventArgs.Empty);
+//             }
         }
 
         private void BufferFiller()
         {
-            bool done = false;
-
-            while (!done)
-            {
-                var state = AL.GetSourceState(sourceId);
-                if (state == ALSourceState.Stopped || state == ALSourceState.Initial)
-                    AL.SourcePlay(sourceId);
-
-                Thread.Sleep((int)(100));
-
-                if (bufferIdsToFill != null)
-                    continue;
-                
-                int buffersProcessed;
-                AL.GetSource(sourceId, ALGetSourcei.BuffersProcessed, out buffersProcessed);
-
-                if (buffersProcessed == 0)
-                    continue;
-
-                bufferIdsToFill = AL.SourceUnqueueBuffers(sourceId, buffersProcessed);
-                currentBufferToFill = 0;
-                OnBufferNeeded(EventArgs.Empty);
-            }
+//             bool done = false;
+// 
+//             while (!done)
+//             {
+//                 var state = AL.GetSourceState(sourceId);
+//                 if (state == ALSourceState.Stopped || state == ALSourceState.Initial)
+//                     AL.SourcePlay(sourceId);
+// 
+//                 Thread.Sleep((int)(100));
+// 
+//                 if (bufferIdsToFill != null)
+//                     continue;
+//                 
+//                 int buffersProcessed;
+//                 AL.GetSource(sourceId, ALGetSourcei.BuffersProcessed, out buffersProcessed);
+// 
+//                 if (buffersProcessed == 0)
+//                     continue;
+// 
+//                 bufferIdsToFill = AL.SourceUnqueueBuffers(sourceId, buffersProcessed);
+//                 currentBufferToFill = 0;
+//                 OnBufferNeeded(EventArgs.Empty);
+//             }
         }
 
         public bool IsLooped
@@ -307,12 +307,12 @@ namespace Microsoft.Xna.Framework.Audio
         {
             get
             {
-                if (hasSourceId)
-                {
-                    int buffersQueued;
-                    AL.GetSource(sourceId, ALGetSourcei.BuffersQueued, out buffersQueued);
-                    return buffersQueued;
-                }
+//                 if (hasSourceId)
+//                 {
+//                     int buffersQueued;
+//                     AL.GetSource(sourceId, ALGetSourcei.BuffersQueued, out buffersQueued);
+//                     return buffersQueued;
+//                 }
                 return 0;
             }
         }
