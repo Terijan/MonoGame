@@ -52,6 +52,8 @@ namespace Microsoft.Xna.Framework.Input
 		private Buttons _buttons;
 		private float _leftTrigger, _rightTrigger;
 		private Vector2 _leftStick, _rightStick;
+        private Vector2 _touchPadPos;
+        private bool _touchPadDown;
 
 		private readonly GamePadCapabilities _capabilities;
 
@@ -82,6 +84,7 @@ namespace Microsoft.Xna.Framework.Input
 			capabilities.HasLeftYThumbStick = true;
 			capabilities.HasRightXThumbStick = true;
 			capabilities.HasRightYThumbStick = true;
+            capabilities.HasStartButton = true;
 
 			return capabilities;
 		}
@@ -90,18 +93,20 @@ namespace Microsoft.Xna.Framework.Input
 		{
 			var gamePad = GamePads[(int) playerIndex];
 
-			GamePadState state = GamePadState.InitializedState;
+            GamePadState state = GamePadState.InitializedState;
 
 			if (gamePad != null)
 			{
-				state = new GamePadState(
+                state = new GamePadState(
 					new GamePadThumbSticks(gamePad._leftStick, gamePad._rightStick), 
 					new GamePadTriggers(gamePad._leftTrigger, gamePad._rightTrigger), 
 					new GamePadButtons(gamePad._buttons), 
-					new GamePadDPad(gamePad._buttons));
+					new GamePadDPad(gamePad._buttons),
+                    new GamePadTouchPad(gamePad._touchPadPos, gamePad._touchPadDown));
+                gamePad._touchPadDown = false;
 			}
 
-			return state;
+			return (GamePadState)state;
 		}
 
 		public static bool SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
@@ -162,17 +167,24 @@ namespace Microsoft.Xna.Framework.Input
 
 		internal static bool OnGenericMotionEvent(MotionEvent e)
 		{
+            if (e.Device == null)
+                return false;
 			var gamePad = GetGamePad(e.Device);
 			if (gamePad == null)
 				return false;
 
-			if (e.Action != MotionEventActions.Move)
-				return false;
-
-			gamePad._leftStick = new Vector2(e.GetAxisValue(Axis.X), e.GetAxisValue(Axis.Y));
-			gamePad._rightStick = new Vector2(e.GetAxisValue(Axis.Z), e.GetAxisValue(Axis.Rz));
-			gamePad._leftTrigger = e.GetAxisValue(Axis.Ltrigger);
-			gamePad._rightTrigger = e.GetAxisValue(Axis.Rtrigger);
+            if (e.Action != MotionEventActions.Move)
+            {
+                gamePad._touchPadPos = new Vector2(e.GetX(), e.GetY());
+                gamePad._touchPadDown = true;
+            }
+            else
+			{
+			    gamePad._leftStick = new Vector2(e.GetAxisValue(Axis.X), -e.GetAxisValue(Axis.Y));
+				gamePad._rightStick = new Vector2(e.GetAxisValue(Axis.Z), e.GetAxisValue(Axis.Rz));
+				gamePad._leftTrigger = e.GetAxisValue(Axis.Ltrigger);
+				gamePad._rightTrigger = e.GetAxisValue(Axis.Rtrigger);
+			}
 
 			return true;
 		}
@@ -213,7 +225,8 @@ namespace Microsoft.Xna.Framework.Input
 				case Keycode.DpadRight:
 					return Buttons.DPadRight;
 
-				case Keycode.ButtonStart:
+                case Keycode.Menu:
+                case Keycode.ButtonStart:
 					return Buttons.Start;
 				case Keycode.Back:
 					return Buttons.Back;
@@ -256,6 +269,7 @@ namespace Microsoft.Xna.Framework.Input
 					capabilities.HasDPadLeftButton = true;
 					capabilities.HasDPadRightButton = true;
 					capabilities.HasDPadUpButton = true;
+                    capabilities.HasStartButton = true;
 					break;
 
 				case "Microsoft X-Box 360 pad":

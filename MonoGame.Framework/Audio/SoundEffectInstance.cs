@@ -293,6 +293,19 @@ namespace Microsoft.Xna.Framework.Audio
 				return isDisposed;
 			}
 		}
+
+        public bool IsReady
+        {
+            get
+            {
+#if ANDROID
+                return _sound.Ready;
+#else
+                return true;
+#endif
+
+            }
+        }
 		
 		public bool IsLooped 
 		{ 

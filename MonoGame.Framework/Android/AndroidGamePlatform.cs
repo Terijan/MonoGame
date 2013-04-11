@@ -177,6 +177,11 @@ namespace Microsoft.Xna.Framework
             return false;
         }
 
+        protected override void OnIsMouseVisibleChanged()
+        {
+            base.OnIsMouseVisibleChanged();
+        }
+
         public override void EnterFullScreen()
         {
         }

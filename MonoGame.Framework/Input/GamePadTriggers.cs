@@ -42,7 +42,12 @@ using System;
 
 namespace Microsoft.Xna.Framework.Input
 {
-	public struct GamePadTriggers
+#if WINRT
+    [DataContract]
+#else
+    [Serializable]
+#endif
+    public struct GamePadTriggers
 	{
         float left, right;
 

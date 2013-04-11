@@ -315,7 +315,11 @@ namespace Microsoft.Xna.Framework.Input
             IntPtr device = GetDevice(index);
             PadConfig c = GetConfig(index);
             if (device == IntPtr.Zero || c == null)
-                return GamePadState.InitializedState;
+            {
+                GamePadState l_state = GamePadState.InitializedState;
+                l_state.IsConnected = false;
+                return l_state;
+            }
 
             var leftStick = c.LeftStick.ReadAxisPair(device);
             var rightStick = c.RightStick.ReadAxisPair(device);
@@ -389,7 +393,7 @@ namespace Microsoft.Xna.Framework.Input
         //     Player index for the controller you want to query.
         public static GamePadState GetState(PlayerIndex playerIndex)
         {
-            return GetState(playerIndex, GamePadDeadZone.IndependentAxes);
+            return GetState(playerIndex, GamePadDeadZone.None);
         }
         //
         // Summary:

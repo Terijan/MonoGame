@@ -42,7 +42,12 @@ using System;
 
 namespace Microsoft.Xna.Framework.Input
 {
-	public struct GamePadDPad
+#if WINRT
+    [DataContract]
+#else
+    [Serializable]
+#endif
+    public struct GamePadDPad
 	{
         public ButtonState Down
         {

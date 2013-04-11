@@ -8,6 +8,11 @@ namespace Microsoft.Xna.Framework.Input
     //     Represents specific information about the state of an Xbox 360 Controller,
     //     including the current state of buttons and sticks. Reference page contains
     //     links to related code samples.
+    #if WINRT
+    [DataContract]
+    #else
+    [Serializable]
+    #endif
     public struct GamePadState
     {
         //
@@ -66,6 +71,15 @@ namespace Microsoft.Xna.Framework.Input
             internal set;
         }
 
+#if OUYA
+        public GamePadTouchPad TouchPad
+        {
+            get;
+            internal set;
+        }
+#endif
+
+        
 	private static GamePadState initializedGamePadState = new GamePadState();
 
 	internal static GamePadState InitializedState
@@ -101,6 +115,15 @@ namespace Microsoft.Xna.Framework.Input
             DPad = dPad;
 			IsConnected = true;
         }
+
+#if OUYA
+        public GamePadState(GamePadThumbSticks thumbSticks, GamePadTriggers triggers, GamePadButtons buttons, GamePadDPad dPad, GamePadTouchPad touchPad)
+            : this(thumbSticks,triggers,buttons,dPad)
+        {
+            TouchPad = touchPad;
+        }
+#endif
+
         //
         // Summary:
         //     Initializes a new instance of the GamePadState class with the specified stick,

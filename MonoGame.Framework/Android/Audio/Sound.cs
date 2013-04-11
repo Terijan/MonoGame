@@ -8,6 +8,7 @@ namespace Microsoft.Xna.Framework.Audio
 {
     internal class Sound : IDisposable
     {
+        private bool m_bLoadComplete = false;
         private const int MAX_SIMULTANEOUS_SOUNDS = 10;
         private static SoundPool s_soundPool = new SoundPool(MAX_SIMULTANEOUS_SOUNDS, Stream.Music, 0);
         private int _soundId;
@@ -82,6 +83,14 @@ namespace Microsoft.Xna.Framework.Audio
             }
         }
 
+        public bool Ready
+        {
+            get
+            {
+                return m_bLoadComplete;
+            }
+        }
+
         public int Play()
         {
             if (_soundId == 0)
@@ -110,16 +119,26 @@ namespace Microsoft.Xna.Framework.Audio
 
         public Sound(string filename, float volume, bool looping)
         {
+            s_soundPool.LoadComplete += new EventHandler<Android.Media.SoundPool.LoadCompleteEventArgs>(SoundPoolLoadComplete);
             using (AssetFileDescriptor fd = Game.Activity.Assets.OpenFd(filename))
                 _soundId = s_soundPool.Load(fd.FileDescriptor, fd.StartOffset, fd.Length, 1);
-
             this.Looping = looping;
             this.Volume = volume;
+        }
+
+        void SoundPoolLoadComplete(object sender, SoundPool.LoadCompleteEventArgs e)
+        {
+            if (e.SampleId == _soundId)
+            {
+                m_bLoadComplete = true;
+                s_soundPool.LoadComplete -= SoundPoolLoadComplete;
+            }
         }
 
         public Sound(byte[] audiodata, float volume, bool looping)
         {
             _soundId = 0;
+            m_bLoadComplete = true;
             //throw new NotImplementedException();
         }
 

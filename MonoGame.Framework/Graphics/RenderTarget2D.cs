@@ -161,7 +161,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		{}
 		
 		public RenderTarget2D(GraphicsDevice graphicsDevice, int width, int height)
-			: this(graphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.DiscardContents) 
+			: this(graphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.Depth24, 0, RenderTargetUsage.DiscardContents) 
 		{}
 
 		protected override void Dispose(bool disposing)

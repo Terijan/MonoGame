@@ -40,9 +40,15 @@
 // 
 
 using System.Collections.Generic;
+using System;
 
 namespace Microsoft.Xna.Framework.Input
 {
+    #if WINRT
+    [DataContract]
+    #else
+    [Serializable]
+    #endif
 	public struct KeyboardState
 	{
         // Used for the common situation where GetPressedKeys will return an empty array

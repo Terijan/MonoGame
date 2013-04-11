@@ -248,7 +248,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		{
 			var item = _batcher.CreateBatchItem();
 
-			item.Depth = depth;
+			item.Depth = 1.0f-depth;
 			item.Texture = texture;
 
 			if (sourceRectangle.HasValue) {

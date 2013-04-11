@@ -22,7 +22,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Android\Debug\</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\Android\</OutputPath>
     <DefineConstants>TRACE;DEBUG;ANDROID;GLES;GLSL;OPENGL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
-    <OutputPath>bin\Android\Release\</OutputPath>
+    <OutputPath>..\..\DLL\MonoGame\Android\</OutputPath>
     <DefineConstants>TRACE;ANDROID;GLES;OPENGL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,6 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorConverter.cs" />
+    <Compile Include="FieldPropertyDescriptor.cs" />
     <Compile Include="Graphics\ResourceCreatedEventArgs.cs" />
     <Compile Include="Graphics\ResourceDestroyedEventArgs.cs" />
     <Compile Include="Android\AndroidCompatibility.cs" />
@@ -250,10 +252,13 @@
     <Compile Include="Quaternion.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Rectangle.cs" />
+    <Compile Include="RectangleConverter.cs" />
     <Compile Include="ReusableItemList.cs" />
     <Compile Include="Threading.cs" />
     <Compile Include="Vector2.cs" />
+    <Compile Include="Vector2Converter.cs" />
     <Compile Include="Vector3.cs" />
+    <Compile Include="Vector3Converter.cs" />
     <Compile Include="Vector4.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="Content\ContentReader.cs" />

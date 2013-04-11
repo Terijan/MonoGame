@@ -17,10 +17,10 @@ namespace Microsoft.Xna.Framework
             m_properties = new PropertyDescriptorCollection(new PropertyDescriptor[] {new FieldPropertyDescriptor(l_type.GetField("X")),new FieldPropertyDescriptor(l_type.GetField("Y")),new FieldPropertyDescriptor(l_type.GetField("Z"))});
         }
 
-        public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
-        {
-            return m_properties;
-        }
+//         public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
+//         {
+//             return m_properties;
+//         }
 
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {

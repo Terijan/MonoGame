@@ -201,7 +201,7 @@ namespace Microsoft.Xna.Framework
 
             UpdateWindowState();
         }
-
+        
         private void UpdateWindowState()
         {
             // we should wait until window's not fullscreen to resize
@@ -220,6 +220,13 @@ namespace Microsoft.Xna.Framework
 
                 window.ClientRectangle = new System.Drawing.Rectangle(clientBounds.X,
                                      clientBounds.Y, clientBounds.Width, clientBounds.Height);
+
+                // Reposition window
+                if (window.WindowState != WindowState.Fullscreen)
+                {
+                    window.X = (Game.GraphicsDevice.DisplayMode.Width - clientBounds.Width) / 2;
+                    window.Y = (Game.GraphicsDevice.DisplayMode.Height - clientBounds.Height) / 2;
+                }
 
                 updateClientBounds = false;
 

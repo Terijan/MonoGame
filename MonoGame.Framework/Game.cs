@@ -308,8 +308,8 @@ namespace Microsoft.Xna.Framework
                     _graphicsDeviceService = (IGraphicsDeviceService)
                         Services.GetService(typeof(IGraphicsDeviceService));
 
-                    if (_graphicsDeviceService == null)
-                        throw new InvalidOperationException("No Graphics Device Service");
+//                     if (_graphicsDeviceService == null)
+//                         throw new InvalidOperationException("No Graphics Device Service");
                 }
                 return _graphicsDeviceService.GraphicsDevice;
             }

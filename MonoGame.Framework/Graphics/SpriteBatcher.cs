@@ -45,8 +45,8 @@ namespace Microsoft.Xna.Framework.Graphics
 {
 	internal class SpriteBatcher
 	{
-		private const int InitialBatchSize = 256;
-		private const int InitialVertexArraySize = 256;
+		private const int InitialBatchSize = 2048;
+        private const int InitialVertexArraySize = 2048;
 
 	    readonly List<SpriteBatchItem> _batchItemList;
 		private int m_iCurrentBatchPos = 0;

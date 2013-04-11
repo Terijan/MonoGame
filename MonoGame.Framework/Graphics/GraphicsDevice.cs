@@ -370,6 +370,7 @@ namespace Microsoft.Xna.Framework.Graphics
 
             PresentationParameters = parameters;
             PresentationParameters.DepthStencilFormat = DepthFormat.Depth24;
+            Initialize();
         }
 
 

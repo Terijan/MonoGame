@@ -40,7 +40,7 @@ namespace Microsoft.Xna.Framework
     #else
     [Serializable]
     #endif
-    [TypeConverter(typeof(Vector3Converter))]
+    //[TypeConverter(typeof(Vector3Converter))]
     public struct Vector3 : IEquatable<Vector3>
     {
         #region Private Fields

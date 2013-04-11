@@ -42,9 +42,22 @@ using System;
 
 namespace Microsoft.Xna.Framework.Input
 {
+#if WINRT
+    [DataContract]
+#else
+    [Serializable]
+#endif
     public struct GamePadButtons
     {
         internal Buttons buttons;
+
+        public Buttons Buttons
+        {
+            get
+            {
+                return buttons;
+            }
+        }
 
         public ButtonState A
         {

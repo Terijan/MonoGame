@@ -94,6 +94,11 @@ using Windows.Storage.Streams;
 using System.Threading.Tasks;
 #endif
 
+#if DIRECTX
+using System.Threading.Tasks;
+using SharpDX.WIC;
+#endif
+
 #if ANDROID
 using Android.Graphics;
 #endif
@@ -726,7 +731,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 return texture;
             }
 
-#elif WINDOWS_STOREAPP
+#elif WINDOWS_STOREAPP || DIRECTX
 
             // For reference this implementation was ultimately found through this post:
             // http://stackoverflow.com/questions/9602102/loading-textures-with-sharpdx-in-metro 
@@ -743,8 +748,6 @@ namespace Microsoft.Xna.Framework.Graphics
 				toReturn._texture = sharpDxTexture;
 			}
             return toReturn;
-#elif DIRECTX
-            throw new NotImplementedException(); 
 #elif PSM
             return new Texture2D(graphicsDevice, stream);
 #else
@@ -767,10 +770,9 @@ namespace Microsoft.Xna.Framework.Graphics
                 if (bitmapData.Stride != bmp.Width * 4) throw new NotImplementedException();
                 Marshal.Copy(bitmapData.Scan0, data, 0, data.Length);
                 bmp.UnlockBits(bitmapData);
-                
 
                 Texture2D texture = null;
-                texture = new Texture2D(graphicsDevice, bmp.Width, bmp.Height);
+                texture = new Texture2D(graphicsDevice, bmp.Width, bmp.Height,false, SurfaceFormat.Color);
                 texture.SetData(data);
 
                 return texture;
@@ -869,9 +871,12 @@ namespace Microsoft.Xna.Framework.Graphics
                 memstream.Seek(0);
                 memstream.AsStreamForRead().CopyTo(stream);
 
+
             }).Wait();
         }
-		
+#endif
+
+#if WINDOWS_STOREAPP || DIRECTX
         public static SharpDX.Direct3D11.Texture2D CreateTex2DFromBitmap(SharpDX.WIC.BitmapSource bsource, GraphicsDevice device)
         {
 

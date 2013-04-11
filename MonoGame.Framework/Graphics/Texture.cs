@@ -160,12 +160,8 @@ namespace Microsoft.Xna.Framework.Graphics
         internal protected override void GraphicsDeviceResetting()
         {
 #if OPENGL
-<<<<<<< HEAD
             //this.glTexture = -1;
-=======
-            this.glTexture = -1;
             this.glLastSamplerState = null;
->>>>>>> remotes/upstream/develop3d
 #endif
         }
 

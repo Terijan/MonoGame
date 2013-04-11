@@ -71,7 +71,7 @@ namespace Microsoft.Xna.Framework
         private bool _synchronizedWithVerticalRetrace = true;
         bool disposed;
 
-#if !(WINDOWS || LINUX || WINRT)
+#if !(LINUX || WINRT)
         private bool _wantFullScreen = false;
 #endif
         public static readonly int DefaultBackBufferHeight = 480;
@@ -409,7 +409,7 @@ namespace Microsoft.Xna.Framework
             }
             set
             {
-#if WINDOWS || LINUX
+#if LINUX
                 _graphicsDevice.PresentationParameters.IsFullScreen = value;
 #elif WINRT
                 // Just ignore this as it is not relevant on Windows 8
