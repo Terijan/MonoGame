@@ -43,6 +43,11 @@ using System;
 
 namespace Microsoft.Xna.Framework.Input
 {
+#if WINRT
+    [DataContract]
+#else
+    [Serializable]
+#endif
     public struct GamePadThumbSticks
     {
         public enum GateType
@@ -51,7 +56,7 @@ namespace Microsoft.Xna.Framework.Input
             Round,
             Square
         };
-        public static GateType Gate = GateType.Round;
+        public static GateType Gate = GateType.Square;
 
         Vector2 left;
         Vector2 right;

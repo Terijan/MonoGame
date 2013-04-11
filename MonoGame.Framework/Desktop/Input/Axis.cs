@@ -58,7 +58,7 @@ namespace Microsoft.Xna.Framework.Input
 
         public float ReadAxis(IntPtr device)
         {
-            return (this.Positive.ReadFloat(device) - this.Negative.ReadFloat(device));
+            return (this.Positive.ReadFloat(device));
         }
 
 
